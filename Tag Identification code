@@ -1,0 +1,75 @@
+import urllib.request  # handling URL
+
+from bs4 import BeautifulSoup  # Handling or Parsing HTML files
+
+import nltk  # toolkit
+nltk.download('stopwords')  # download stopwords if not already done
+
+from nltk.corpus import stopwords
+
+#get the info from website
+
+response = urllib.request.urlopen('https://en.wikipedia.org/wiki/Apple')
+html = response.read() # variable name htlm
+print(html)
+
+soup = BeautifulSoup(html,'html5lib')
+text = soup.get_text(strip = True)  # remove the html,css,tag unwanted words and give the content
+
+print("Text",text)
+
+#Tokenization
+
+tokens = [t for t in text.split()] # split the words induvial words
+
+print("tokens",tokens )
+
+#Stopwords (unwanted contents removes)
+
+sr = stopwords.words('english')
+clean_tokens = tokens[:]
+for token in tokens:     # take the word from the tokens and condition check
+    if token in stopwords.words('english'): 
+
+        clean_tokens.remove(token)  #condition check and remove unwantes content
+
+print(clean_tokens)  #cleaned tokens only print
+
+
+freq = nltk.FreqDist(clean_tokens) # freq is a variable nltk syntax
+for key,val in freq.items():
+    print(str(key) + ':' + str(val)) # how many keywords print and the value
+freq.plot(20) # nltk plot function graph will show
+
+# Additional version using headers
+headers = {'User-Agent': 'Mozilla/5.0'}  # added to avoid HTTP 403 error
+req = urllib.request.Request('https://en.wikipedia.org/wiki/Apple', headers=headers)
+response = urllib.request.urlopen(req)
+html = response.read()  # variable name html
+print(html)
+
+# Parse HTML
+soup = BeautifulSoup(html, 'html5lib')
+text = soup.get_text(strip=True)  # remove HTML/CSS tags and unwanted characters
+
+print("Text", text)
+
+# Tokenization
+tokens = [t for t in text.split()]  # split into individual words
+print("Tokens", tokens)
+
+# Stopwords removal (unwanted contents)
+sr = stopwords.words('english')
+clean_tokens = tokens[:]
+for token in tokens:  # take each word from the tokens and check condition
+    if token in sr:
+        clean_tokens.remove(token)  # remove unwanted stopwords
+
+print(clean_tokens)  # print cleaned tokens only
+
+# Frequency Distribution
+freq = nltk.FreqDist(clean_tokens)
+for key, val in freq.items():
+    print(str(key) + ':' + str(val))  # print keyword and its frequency
+
+freq.plot(20)  # nltk plot function (graph)
