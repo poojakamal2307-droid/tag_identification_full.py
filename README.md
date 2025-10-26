@@ -34,6 +34,5 @@ or generate SEO-related keywords from any online article.
 - NLTK  
 - html5lib  
 
-# - Content Categorization
-# - Text Mining and NLP Projects
-# ===============================================================
+ - Content Categorization
+ - Text Mining and NLP Projects
